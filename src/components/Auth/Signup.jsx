@@ -66,7 +66,7 @@ const Signup = () => {
     return (
         <div className="">
             <Helmet>
-                <title>Liberty Tours | Registration</title>
+                <title>Woman's Cloth | Registration</title>
             </Helmet>
             <h2 className="card-title text-4xl pb-10 px-96 mx-24 font-bold">Register now!</h2>
             <div className="p-12 min-h-screen bg-base-200 mx-[37%]">

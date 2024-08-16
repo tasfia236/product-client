@@ -1,13 +1,121 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Helmet } from 'react-helmet';
+import cover from '../../assets/cover.jpeg'
+import Swal from 'sweetalert2';
+import { AuthContext } from '../../Providers/AuthProvider';
+import { GoogleAuthProvider } from 'firebase/auth';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const googleProvider = new GoogleAuthProvider();
+    const { signInUser } = useContext(AuthContext);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const handleLogIn = e => {
+        e.preventDefault();
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+        //   console.log(email, password);
+
+        signInUser(email, password)
+            .then(result => {
+                console.log(result.user)
+                Swal.fire({
+                    title: "User Logged In Successfully",
+                    icon: "success",
+                    showClass: {
+                        popup: `
+                        animate__animated
+                        animate__fadeInUp
+                        animate__faster
+                      `
+                    },
+                    hideClass: {
+                        popup: `
+                        animate__animated
+                        animate__fadeOutDown
+                        animate__faster
+                      `
+                    }
+                });
+
+                navigate(location?.state ? location.state : '/')
+            })
+            .catch(error => {
+                Swal.fire({
+                    title: `error logging in, ${error.code}`,
+                    icon: "warning",
+                    showClass: {
+                        popup: `
+                        animate__animated
+                        animate__fadeInUp
+                        animate__faster
+                      `
+                    },
+                    hideClass: {
+                        popup: `
+                        animate__animated
+                        animate__fadeOutDown
+                        animate__faster
+                      `
+                    }
+                });
+            })
+    }
+
+    const HandleGoogleSignIn = () => {
+        signInWithPopup(auth, googleProvider)
+            .then(result => {
+                console.log(result.user)
+                Swal.fire({
+                    title: "User Logged In Successfully",
+                    icon: "success",
+                    showClass: {
+                        popup: `
+                        animate__animated
+                        animate__fadeInUp
+                        animate__faster
+                      `
+                    },
+                    hideClass: {
+                        popup: `
+                        animate__animated
+                        animate__fadeOutDown
+                        animate__faster
+                      `
+                    }
+                });
+                navigate(location?.state ? location.state : '/')
+            })
+            .catch(error => {
+                Swal.fire({
+                    title: `error logging in, ${error.code}`,
+                    icon: "warning",
+                    showClass: {
+                        popup: `
+                        animate__animated
+                        animate__fadeInUp
+                        animate__faster
+                      `
+                    },
+                    hideClass: {
+                        popup: `
+                        animate__animated
+                        animate__fadeOutDown
+                        animate__faster
+                      `
+                    }
+                });
+                console.error(error);
+            })
+    }
     return (
-<div className="">
+        <div className="">
             <Helmet>
-                <title>Liberty Tours | LogIn</title>
+                <title>Woman's Cloth | LogIn</title>
             </Helmet>
-            <h2 className="card-title text-4xl pb-10 px-96 mx-24 font-bold">Register now!</h2>
+            <h2 className="card-title text-4xl pb-10 px-96 mx-24 font-bold">Login now!</h2>
             <div className="p-12 min-h-screen bg-base-200 mx-[37%]">
                 <div className="card glass w-96">
                     <figure>
@@ -36,10 +144,7 @@ const Login = () => {
                             <button className="btn btn-primary">Login</button>
                         </div>
                         <div className="form-control">
-                            <button onClick={ HandleGoogleSignIn } className="btn text-white bg-red-600">Google login</button>
-                        </div>
-                        <div className="form-control">
-                            <button onClick={ HandleGitHubSignIn } className="btn text-white bg-black">GitHub login</button>
+                            <button onClick={HandleGoogleSignIn} className="btn text-white bg-red-600">Google login</button>
                         </div>
                     </form>
                     <p className="pl-5">
