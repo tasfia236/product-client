@@ -12,11 +12,18 @@ const Home = () => {
     const [priceFilter, setPriceFilter] = useState('');
     const [sortOption, setSortOption] = useState('');
 
+    // Pagination States
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [itemsPerPage] = useState(10); // Set your items per page here
+
     useEffect(() => {
-        fetch('http://localhost:8000/clothes')
+        // Fetch paginated clothes data
+        fetch(`http://localhost:8000/clothes?page=${currentPage}&limit=${itemsPerPage}`)
             .then(res => res.json())
             .then(data => {
-                setCloth(data);
+                setCloth(data.clothes);
+                setTotalPages(data.totalPages);
                 setLoading(false);
             })
             .catch(error => {
@@ -24,7 +31,7 @@ const Home = () => {
                 setLoading(false);
             });
 
-    }, [])
+    }, [currentPage]);
 
     // Search, Filter, and Sort Logic
     useEffect(() => {
@@ -65,6 +72,14 @@ const Home = () => {
 
         setFilteredCloth(updatedClothes);
     }, [searchTerm, categoryFilter, brandFilter, priceFilter, sortOption, cloth]);
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) setCurrentPage(currentPage - 1);
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+    };
 
     if (loading) {
         return <div>Loading...</div>;
@@ -120,7 +135,6 @@ const Home = () => {
                     <option value="UrbanEdge">UrbanEdge</option>
                     <option value="UrbanClassic">UrbanClassic</option>
                     <option value="WoolWear">WoolWear</option>
-                    {/* Add more brands as needed */}
                 </select>
 
                 <select
@@ -144,10 +158,28 @@ const Home = () => {
                 </select>
             </div>
 
+            {/* Displaying Clothes */}
             <div className="grid lg:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 gap-y-5 mx-24 lg:mx-8 md:mx-12 sm:mx-20 gap-12">
                 {
                     filteredCloth.map(cloth => <Cloth key={cloth._id} cloth={cloth}></Cloth>)
                 }
+            </div>
+
+            {/* Pagination Controls */}
+            <div className="flex justify-center my-8 gap-4">
+                <button
+                    className="btn"
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}>
+                    Previous
+                </button>
+                <span>Page {currentPage} of {totalPages}</span>
+                <button
+                    className="btn"
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}>
+                    Next
+                </button>
             </div>
         </div>
     );
