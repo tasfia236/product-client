@@ -93,7 +93,7 @@ const Home = () => {
                 </title>
                 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
             </Helmet>
-            <h2 className="text-4xl text-center my-12 font-bold text-sky-800">Clothes</h2>
+            <h2 className="text-4xl text-center my-12 font-bold text-sky-800">All Clothes</h2>
 
             {/* Search Bar */}
             <div className="flex justify-center mb-6">
@@ -107,7 +107,7 @@ const Home = () => {
             </div>
 
             {/* Filters */}
-            <div className="flex justify-center gap-4 mb-8">
+            <div className="flex justify-center flex-col lg:flex-row gap-4 mb-8 mx-24 lg:mx-2">
                 <select
                     className="select select-bordered"
                     value={categoryFilter}
@@ -160,7 +160,7 @@ const Home = () => {
             </div>
 
             {/* Displaying Clothes */}
-            <div className="grid lg:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 gap-y-5 mx-24 lg:mx-8 md:mx-12 sm:mx-20 gap-12">
+            <div className="grid lg:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 gap-y-5 mx-24 lg:mx-8 md:mx-12 sm:mx-24 ml-12 gap-12">
                 {
                     filteredCloth.map(cloth => <Cloth key={cloth._id} cloth={cloth}></Cloth>)
                 }

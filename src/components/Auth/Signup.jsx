@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import cover from '../../assets/cover.jpeg'
+import { Link, useNavigate } from 'react-router-dom';
+import cover from '../../assets/cover.jpeg';
 import { AuthContext } from '../../Providers/AuthProvider';
 import { Helmet } from 'react-helmet';
 import Swal from 'sweetalert2';
 
 const Signup = () => {
     const { createUser } = useContext(AuthContext) || {};
+    const navigate = useNavigate();
 
     const handleregister = e => {
         e.preventDefault();
@@ -14,13 +15,13 @@ const Signup = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
 
-        const data = { email, password, displayName }
+        const data = { email, password, displayName };
         console.log(data);
 
         createUser(email, password)
             .then(result => {
                 console.log(result.user);
-                Navigate('/')
+                navigate('/');
                 Swal.fire({
                     title: "User Successfully Registered",
                     icon: "success",
@@ -42,7 +43,7 @@ const Signup = () => {
             })
             .catch(error => {
                 Swal.fire({
-                    title: `error registering, ${error.code}`,
+                    title: `Error registering, ${error.code}`,
                     icon: "warning",
                     showClass: {
                         popup: `
@@ -60,50 +61,73 @@ const Signup = () => {
                     }
                 });
                 console.error(error);
-            })
-    }
+            });
+    };
 
     return (
-        <div className="">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
             <Helmet>
                 <title>Woman's Cloth | Registration</title>
             </Helmet>
-            <h2 className="card-title text-4xl pb-10 px-96 mx-24 font-bold">Register now!</h2>
-            <div className="p-12 min-h-screen bg-base-200 mx-[37%]">
-                <div className="card glass w-96">
+            <h2 className="text-3xl sm:text-4xl text-center font-bold text-sky-800 py-10">Register Now!</h2>
+
+            <div className="w-full max-w-md px-4">
+                <div className="card bg-base-200 shadow-xl">
                     <figure>
                         <img
                             src={cover}
-                            className='w-full h-[50%]'
-                            alt="clothes!" />
+                            className="w-full h-40 sm:h-60 object-cover rounded-t-lg"
+                            alt="clothes!"
+                        />
                     </figure>
-                    <form onSubmit={handleregister} className="card-body">
+                    <form onSubmit={handleregister} className="card-body space-y-6">
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Name</span>
                             </label>
-                            <input type="text" placeholder="Your name" name="name" className="input input-bordered" required />
+                            <input
+                                type="text"
+                                placeholder="Your name"
+                                name="name"
+                                className="input input-bordered"
+                                required
+                            />
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
-                            <input type="email" placeholder="email" name="email" className="input input-bordered" required />
+                            <input
+                                type="email"
+                                placeholder="email"
+                                name="email"
+                                className="input input-bordered"
+                                required
+                            />
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input type="password" placeholder="password" name="password" className="input input-bordered" required />
+                            <input
+                                type="password"
+                                placeholder="password"
+                                name="password"
+                                className="input input-bordered"
+                                required
+                            />
                             <label className="label">
                                 <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                             </label>
                         </div>
-                        <div className="card-actions justify-end">
-                            <button className="btn btn-primary">Submit</button>
+                        <div className="card-actions justify-center">
+                            <button className="btn btn-primary w-full">Submit</button>
                         </div>
-                        <p className="pl-5">
-                            Already have an account? <Link to='/login'> <button className="btn btn-link">LogIn</button></Link>
+                        <p className="text-center">
+                            Already have an account?{' '}
+                            <Link to='/login'>
+                                <button className="btn btn-link">Log In</button>
+                            </Link>
                         </p>
                     </form>
                 </div>

@@ -16,14 +16,14 @@ const Cloth = ({ cloth }) => {
                 <h2 className="card-title">{productName}</h2>
                 <p>{description}</p>
                 <div className="card-actions gap-24">
-                    <p>Category: {category}</p>
-                    <p>Brand: {brandName}</p>
+                    <p><span className='font-bold'>Category:</span> {category}</p>
+                    <p><span className='font-bold'>Brand:</span> {brandName}</p>
                 </div>
                 <div className="card-actions gap-24">
-                    <p>Price: ${price}</p>
-                    <p>Rating: {ratings}</p>
+                    <p><span className='font-bold'>Price:</span> ${price}</p>
+                    <p><span className='font-bold'>Rating:</span> {ratings}</p>
                 </div>
-                <p>Created At: {new Date(createdAt).toLocaleDateString()}</p>
+                <p><span className='font-bold'>Created At:</span> {new Date(createdAt).toLocaleDateString()}</p>
             </div>
         </div>
     );
