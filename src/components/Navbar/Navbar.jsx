@@ -14,7 +14,7 @@ const Navbar = () => {
     return (
         <div className="navbar bg-base-100">
             <div className="navbar-start">
-                <p className="btn btn-ghost text-xl">Woman's Cloth</p>
+                <Link to='/'><p className="btn btn-ghost text-xl">Woman's Cloth</p></Link>
             </div>
             <div className="navbar-end gap-5">
                 {user ?

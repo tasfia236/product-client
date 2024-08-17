@@ -91,6 +91,7 @@ const Home = () => {
                 <title>
                     Woman's Cloth | Home
                 </title>
+                <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
             </Helmet>
             <h2 className="text-4xl text-center my-12 font-bold text-sky-800">Clothes</h2>
 
