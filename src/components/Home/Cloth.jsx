@@ -10,7 +10,7 @@ const Cloth = ({ cloth }) => {
                 <img
                     src={productImage}
                     alt="Clothes"
-                    className="rounded-xl" />
+                    className="rounded-xl w-80 h-80" />
             </figure>
             <div className="card-body items-center text-center">
                 <h2 className="card-title">{productName}</h2>
