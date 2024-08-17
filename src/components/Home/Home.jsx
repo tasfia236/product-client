@@ -19,7 +19,7 @@ const Home = () => {
 
     useEffect(() => {
         // Fetch paginated clothes data
-        fetch(`http://localhost:8000/clothes?page=${currentPage}&limit=${itemsPerPage}`)
+        fetch(`https://product-server-delta.vercel.app/clothes?page=${currentPage}&limit=${itemsPerPage}`)
             .then(res => res.json())
             .then(data => {
                 setCloth(data.clothes);
@@ -91,7 +91,7 @@ const Home = () => {
                 <title>
                     Woman's Cloth | Home
                 </title>
-                <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+                <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
             </Helmet>
             <h2 className="text-4xl text-center my-12 font-bold text-sky-800">All Clothes</h2>
 
