@@ -6,7 +6,7 @@ const Home = () => {
     const [cloth, setCloth] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    const [filteredCloth, setFilteredCloth] = useState([]);
+    const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('');
     const [brandFilter, setBrandFilter] = useState('');
     const [priceFilter, setPriceFilter] = useState('');
@@ -17,9 +17,32 @@ const Home = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [itemsPerPage] = useState(10); // Set your items per page here
 
+    // Debounce the search term
     useEffect(() => {
-        // Fetch paginated clothes data
-        fetch(`https://product-server-delta.vercel.app/clothes?page=${currentPage}&limit=${itemsPerPage}`)
+        const handler = setTimeout(() => {
+            setDebouncedSearchTerm(searchTerm);
+        }, 300); // 300ms delay (adjust as needed)
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [searchTerm]);
+
+    // Fetch products with search, filter, sort, and pagination
+    const fetchClothes = () => {
+        setLoading(true);
+
+        const queryParams = new URLSearchParams({
+            page: currentPage,
+            limit: itemsPerPage,
+            searchTerm: debouncedSearchTerm || '',
+            category: categoryFilter || '',
+            brand: brandFilter || '',
+            price: priceFilter || '',
+            sort: sortOption || ''
+        });
+
+        fetch(`https://product-server-delta.vercel.app/clothes?${queryParams.toString()}`)
             .then(res => res.json())
             .then(data => {
                 setCloth(data.clothes);
@@ -30,48 +53,11 @@ const Home = () => {
                 console.error('Error fetching data:', error);
                 setLoading(false);
             });
+    };
 
-    }, [currentPage]);
-
-    // Search, Filter, and Sort Logic
     useEffect(() => {
-        let updatedClothes = [...cloth];
-
-        // Search
-        if (searchTerm) {
-            updatedClothes = updatedClothes.filter(item => item.productName.toLowerCase().includes(searchTerm.toLowerCase()));
-        }
-
-        // Category Filter
-        if (categoryFilter) {
-            updatedClothes = updatedClothes.filter(item => item.category === categoryFilter);
-        }
-
-        // Brand Filter
-        if (brandFilter) {
-            updatedClothes = updatedClothes.filter(item => item.brandName === brandFilter);
-        }
-
-        // Price Filter
-        if (priceFilter === 'under50') {
-            updatedClothes = updatedClothes.filter(item => item.price < 50);
-        } else if (priceFilter === '50To100') {
-            updatedClothes = updatedClothes.filter(item => item.price >= 50 && item.price <= 100);
-        } else if (priceFilter === 'over100') {
-            updatedClothes = updatedClothes.filter(item => item.price > 100);
-        }
-
-        // Sorting by date & price
-        if (sortOption === 'priceLowToHigh') {
-            updatedClothes = updatedClothes.sort((a, b) => a.price - b.price);
-        } else if (sortOption === 'priceHighToLow') {
-            updatedClothes = updatedClothes.sort((a, b) => b.price - a.price);
-        } else if (sortOption === 'newestFirst') {
-            updatedClothes = updatedClothes.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        }
-
-        setFilteredCloth(updatedClothes);
-    }, [searchTerm, categoryFilter, brandFilter, priceFilter, sortOption, cloth]);
+        fetchClothes();
+    }, [currentPage, debouncedSearchTerm, categoryFilter, brandFilter, priceFilter, sortOption]);
 
     const handlePreviousPage = () => {
         if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -88,9 +74,7 @@ const Home = () => {
     return (
         <div>
             <Helmet>
-                <title>
-                    Woman's Cloth | Home
-                </title>
+                <title>Woman's Cloth | Home</title>
                 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
             </Helmet>
             <h2 className="text-4xl text-center my-12 font-bold text-sky-800">All Clothes</h2>
@@ -162,7 +146,7 @@ const Home = () => {
             {/* Displaying Clothes */}
             <div className="grid lg:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 gap-y-5 mx-24 lg:mx-8 md:mx-12 sm:mx-24 ml-12 gap-12">
                 {
-                    filteredCloth.map(cloth => <Cloth key={cloth._id} cloth={cloth}></Cloth>)
+                    cloth.map(cloth => <Cloth key={cloth._id} cloth={cloth}></Cloth>)
                 }
             </div>
 

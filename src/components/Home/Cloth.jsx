@@ -15,11 +15,11 @@ const Cloth = ({ cloth }) => {
             <div className="card-body items-center text-center">
                 <h2 className="card-title">{productName}</h2>
                 <p>{description}</p>
-                <div className="card-actions gap-24">
+                <div className="card-actions gap-8">
                     <p><span className='font-bold'>Category:</span> {category}</p>
                     <p><span className='font-bold'>Brand:</span> {brandName}</p>
                 </div>
-                <div className="card-actions gap-24">
+                <div className="card-actions gap-8">
                     <p><span className='font-bold'>Price:</span> ${price}</p>
                     <p><span className='font-bold'>Rating:</span> {ratings}</p>
                 </div>
