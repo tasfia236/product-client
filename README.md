@@ -1,8 +1,20 @@
-# React + Vite
+# Website Name - Woman's Cloth
+This is the Woman's Cloth project, built using **React.js** with **Tailwind CSS**, **DaisyUI**, and **React Router v6**. The project is a fully responsive e-commerce site featuring user authentication, product listings, and search functionality.
+## Live Link - https://product-3cbe0.web.app
+## Frontend Repository - https://github.com/tasfia236/product-client
+## Backend Repository - https://github.com/tasfia236/product-server
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Features
+- Responsive Desige
+- User Authentication with Firebase
+- Product listing with search, filter, and pagination
+- Dynamic product card layout
+- Helmet for managing the document head
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Run Project
+- open gitbash
+- git clone https://github.com/tasfia236/product-client.git
+- cd product-client
+- environment setup
+- npm run dev
